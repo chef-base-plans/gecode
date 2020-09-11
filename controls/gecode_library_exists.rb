@@ -27,10 +27,8 @@ control 'core-plans-gecode-library-exists' do
 
   plan_pkg_version = plan_installation_directory.stdout.split("/")[5]
   command_full_path = File.join(plan_installation_directory.stdout.strip, "bin", "fz")
-  describe command("#{command_full_path} --help") do
+  describe command("#{command_full_path} --help 2>& 1") do
     its('exit_status') { should eq 0 }
-    its('stderr') { should_not be_empty }
-    its('stderr') { should match /Version:\s+#{plan_pkg_version}/ }
-    its('stdout') { should be_empty }
+    its('stdout') { should match /Version:\s+#{plan_pkg_version}/ }
   end
 end
